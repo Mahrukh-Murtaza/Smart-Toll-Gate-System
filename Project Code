@@ -1,0 +1,49 @@
+
+
+
+
+#include<Servo.h>
+#define trigpin 8
+#define echopin 10
+#define LED 12
+#define servopin 6
+float distance, duration;
+Servo gate;
+
+void setup() {
+
+  // put your setup code here, to run once:
+
+Serial.begin(9600);
+pinMode(trigpin, OUTPUT);
+pinMode(echopin, INPUT);
+pinMode(LED, OUTPUT);
+gate.attach(servopin);
+gate.write(0);
+}
+
+void loop() {
+ digitalWrite(trigpin, LOW);
+ delayMicroseconds(2);
+ digitalWrite(trigpin, HIGH);
+ delayMicroseconds(10);
+ digitalWrite(trigpin, LOW);
+ duration=pulseIn(echopin, HIGH);
+ distance=duration/58.2;
+ Serial.print("Distance");
+ Serial.print(distance);
+ Serial.println("cm");
+ if(distance<25){
+ 
+  digitalWrite(LED, HIGH);
+  gate.write(90);
+}
+else{
+ 
+  digitalWrite(LED, LOW);
+  gate.write(0);
+}
+delay(50);
+}
+
+
